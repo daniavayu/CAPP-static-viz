@@ -4,7 +4,7 @@
 
 A tenth of the world's population, roughly one billion people, has been largely left behind by the waves of poverty reduction that have reshaped the global economy since 1990. While extreme poverty has fallen dramatically at the global level, the poorest decile has grown more slowly, gained less from globalization, and continues to lag across every measurable dimension of wellbeing.
 
-This project builds a visual portrait of those left behind: where they live, what they lack, and how their situation compares to the rest of the world. Using the global income distribution alongside development indicators for electricity, clean water, internet access, education, and health, I want to show that the divergence of the poorest decile is not limited to income. It is systematic and multi-dimensional. Even though we cannot confirm it is always the exact same people, approximately one billion individuals appear stuck at the bottom across every indicator we can measure.
+This project seeks to build a visual portrait of those left behind: where they live, what they lack, and how their situation compares to the rest of the world. Using the global income distribution alongside development indicators for electricity, clean water, internet access, education, and health, I want to show that the divergence of the poorest decile is not limited to income. It is systematic and multi-dimensional. Even though we cannot confirm it is always the exact same people, approximately one billion individuals appear stuck at the bottom across every indicator we can measure.
 
 I have already done substantial exploratory analysis during my internship at the World Bank's DECDA division, including decile-level income growth comparisons and income density plots, which I will adapt and extend for this project.
 
@@ -18,13 +18,11 @@ I have already done substantial exploratory analysis during my internship at the
 
 URL: https://pip.worldbank.org/
 
-
 URL: https://datacatalog.worldbank.org/search/dataset/0064304/1000-binned-global-distribution
 
 Size: 8,066,000 rows and 8 columns 
 
-This dataset contains the global distribution of welfare divided into 1,000 bins, created from the Poverty and Inequality Platform (PIP). It covers 218 World Bank economies and annual observations from 1990 to 2026. Each row is one bin for one economy and year, with the year, country code, region, bin number (quantile), a welfare value (welf), a population weight (pop), and the PIP vintage used. Because the bins are much finer than deciles, I can use them to look closely at the poorest decile (the first 100 bins) and to track how it changes over time compared with the rest of the distribution. The data is stored locally as a CSV file of about 770 MB and is processed in chunks, but there is also the possibility of using the available API. 
-
+This dataset contains the global distribution of welfare divided into 1,000 bins, created from the Poverty and Inequality Platform (PIP). It covers 218 World Bank economies and annual observations from 1990 to 2026. Each row is one bin for one economy and year, with the year, country code, region, bin number (quantile), a welfare value (welf), a population weight (pop), and the PIP vintage used. Because the bins are much finer than deciles, I can use them to look closely at the poorest decile (the first 100 bins) and to track how it changes over time compared with the rest of the distribution. 
 
 ### Data Source 2: Global Monitoring Database
 
@@ -38,7 +36,7 @@ This dataset contains harmonized household-level observations from the World Ban
 
 URL: https://data360.worldbank.org/en/api?indicatorid=FAO_AS_4114&datasetid=FAO_AS
 
-This is one example: total population with access to safe drinking-water. It comes from FAO, but this platform has many others, and they all have APIs to connect to the data. 
+This is just one example: total population with access to safe drinking-water. It comes from FAO, but this platform has many others, and they all have APIs to connect to the data. 
 
 Size: 6,179 rows, 24 columns (depends on indicator and year selection, 5 to 6 columns per indicator - generally country code, country name, indicator code, year, value)
 
