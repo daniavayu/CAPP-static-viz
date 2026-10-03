@@ -21,7 +21,7 @@ URL: https://pip.worldbank.org/
 
 URL: https://datacatalog.worldbank.org/search/dataset/0064304/1000-binned-global-distribution
 
-Size: 8066000 rows and 8 columns 
+Size: 8,066,000 rows and 8 columns 
 
 This dataset contains the global distribution of welfare divided into 1,000 bins, created from the Poverty and Inequality Platform (PIP). It covers 218 World Bank economies and annual observations from 1990 to 2026. Each row is one bin for one economy and year, with the year, country code, region, bin number (quantile), a welfare value (welf), a population weight (pop), and the PIP vintage used. Because the bins are much finer than deciles, I can use them to look closely at the poorest decile (the first 100 bins) and to track how it changes over time compared with the rest of the distribution. The data is stored locally as a CSV file of about 770 MB and is processed in chunks, but there is also the possibility of using the available API. 
 
@@ -42,5 +42,5 @@ This is one example: total population with access to safe drinking-water. It com
 
 Size: 6,179 rows, 24 columns (depends on indicator and year selection, 5 to 6 columns per indicator - generally country code, country name, indicator code, year, value)
 
-My idea here is to choose some development indicators (access to electricity, access to the internet, access to clean water, and educational indicators, among others) that have similar behavior to the poorest decile because I have the hypothesis that these indicators can show what I am trying to prove: a tenth of the population is being left behind in every aspect, and even though we can't really know if it is the same people, about a billion people are stuck in that situation either way.
+My idea here is to choose some development indicators (access to electricity, access to the internet, access to clean water, and educational indicators, among others) that have similar behavior to the poorest decile behavior because I have the hypothesis that these indicators can show what I am trying to prove: a tenth of the population is being left behind in every aspect, and even though we can't really know if it is the same people, about a billion people are stuck in that situation either way.
 
