@@ -1,0 +1,16 @@
+# Environment and caches
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# Quarto build artifacts (the rendered PDF is kept)
+report/.quarto/
+/report/left_behind.typ
+report/*_files/
+
+# Raw data too large for GitHub (see README for how to obtain them)
+GMD_all_2017.dta
+GlobalDist1000bins_1990_2026_20260922_2021_01_02_PROD.csv
+data/comparable_blog 2.Rda

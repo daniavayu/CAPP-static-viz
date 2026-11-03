@@ -1,0 +1,14 @@
+[project]
+name = "static"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "altair>=6.3.0",
+    "ipykernel>=7.4.0",
+    "matplotlib>=3.11.2",
+    "pandas>=3.0.6",
+    "pdfplumber>=0.11.10",
+    "pyreadr>=0.5.7",
+    "requests>=2.34.2",
+    "vl-convert-python>=1.9.0.post1",
+]
