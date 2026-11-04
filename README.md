@@ -14,6 +14,17 @@ This project examines how global income growth has been shared across the poores
 - `dev_indicators/indicator_analysis_helpers.py` and `dev_indicators/parse_fcs_list.py`: report build helpers.
 - `data/C2-FCSList-FY06toFY26.pdf`: World Bank fragile and conflict-affected situations lists used by the report.
 
+## Supplementary indicator analyses
+
+`dev_indicators/` includes the analysis notebooks used to develop and contextualize the blog:
+
+- `decile_bars_visualization.ipynb` and `summary_indicators.ipynb`: cross-indicator comparisons by global decile.
+- `electricity_access.ipynb`, `internet_access.ipynb`, `water_access.ipynb`, and `literacy_analysis.ipynb`: indicator-specific analyses.
+- `fragility_fcs.ipynb`: fragile and conflict-affected states analysis.
+- `ai_preparedness_exploration.ipynb`: supplementary AI preparedness exploration; it is not a source for the report's main figures.
+
+These notebooks are supporting analyses, not required to render the PDF. Notebooks that calculate global deciles require the PIP CSV described below; the large source file is not committed.
+
 ## Data
 
 The report uses the World Bank PIP 1,000-bin global distribution (2026 release, vintage 20260922), in 2021 PPP dollars per person per day. The 2026 forecast is excluded; the report ends in 2025. The 772 MB CSV is not included in this repository. Download it from the [World Bank Data Catalog](https://datacatalog.worldbank.org/search/dataset/0064304/1000-binned-global-distribution) and place `GlobalDist1000bins_1990_2026_20260922_2021_01_02_PROD.csv` in the project root.
