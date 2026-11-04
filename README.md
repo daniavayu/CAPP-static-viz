@@ -1,6 +1,9 @@
 # Global Progress, Unequally Shared
 
 This project examines how global income growth has been shared across the poorest 10% and other global income deciles from 1990 to 2025.
+The idea is to publish this piece in the World Bank's Data webpage, as it represents a continuation of a program started over the summer. 
+
+It looks at poverty from a different angle and tries to explain differences throughout population deciles over the past years and its relationship with poverty and inequality. 
 
 **Final report:** [`report/left_behind.pdf`](report/left_behind.pdf)
 
