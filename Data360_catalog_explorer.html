@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data360 Catalog Explorer</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #667784;
+      --line: #d8e0e5;
+      --paper: #f7f8f5;
+      --panel: #ffffff;
+      --teal: #167d78;
+      --coral: #d9684b;
+      --pale-teal: #e5f1ef;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .shell { max-width: 1440px; margin: 0 auto; padding: 30px 28px 56px; }
+    header { display: flex; justify-content: space-between; gap: 28px; align-items: end; margin-bottom: 26px; }
+    h1 { max-width: 720px; margin: 0; font-size: clamp(2.4rem, 5vw, 5.3rem); line-height: .92; letter-spacing: -0.03em; font-weight: 500; }
+    .intro { max-width: 420px; color: var(--muted); font: 1rem/1.5 ui-sans-serif, system-ui, sans-serif; }
+    .toolbar { display: grid; grid-template-columns: minmax(260px, 2fr) minmax(180px, 1fr) auto; gap: 10px; margin-bottom: 18px; }
+    input, select, button { border: 1px solid var(--line); border-radius: 3px; padding: 12px 13px; background: var(--panel); color: var(--ink); font: 0.95rem ui-sans-serif, system-ui, sans-serif; }
+    input:focus, select:focus, button:focus { outline: 3px solid var(--pale-teal); border-color: var(--teal); }
+    button { cursor: pointer; background: var(--teal); color: white; border-color: var(--teal); }
+    button.secondary { background: transparent; color: var(--teal); }
+    .status { min-height: 24px; margin: 8px 0 15px; color: var(--muted); font: 0.86rem ui-sans-serif, system-ui, sans-serif; }
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .stat { padding: 12px 16px; background: var(--panel); border-left: 3px solid var(--coral); font: 0.84rem ui-sans-serif, system-ui, sans-serif; }
+    .stat strong { display: block; margin-top: 3px; color: var(--ink); font-size: 1.2rem; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, .8fr); gap: 18px; align-items: start; }
+    .table-wrap, .detail { background: var(--panel); border: 1px solid var(--line); }
+    .table-wrap { overflow: auto; max-height: 70vh; }
+    table { width: 100%; border-collapse: collapse; font: 0.88rem ui-sans-serif, system-ui, sans-serif; }
+    th, td { padding: 12px 13px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { position: sticky; top: 0; z-index: 1; background: var(--ink); color: white; font-weight: 600; }
+    tbody tr { cursor: pointer; }
+    tbody tr:hover, tbody tr.selected { background: var(--pale-teal); }
+    .dataset { color: var(--teal); font-weight: 700; }
+    .id { color: var(--coral); white-space: nowrap; }
+    .detail { position: sticky; top: 18px; padding: 22px; min-height: 320px; }
+    .detail h2 { margin: 0 0 8px; font-size: 1.6rem; font-weight: 500; }
+    .detail dl { display: grid; grid-template-columns: 110px 1fr; gap: 10px; margin: 20px 0; font: 0.9rem/1.4 ui-sans-serif, system-ui, sans-serif; }
+    .detail dt { color: var(--muted); font-weight: 700; }
+    .detail dd { margin: 0; overflow-wrap: anywhere; }
+    .hint { color: var(--muted); font: 0.9rem/1.5 ui-sans-serif, system-ui, sans-serif; }
+    .error { padding: 14px; background: #fff0ec; color: #8c2e1b; font: 0.9rem ui-sans-serif, system-ui, sans-serif; }
+    @media (max-width: 900px) {
+      header { display: block; }
+      .intro { margin-top: 18px; }
+      .toolbar, .layout { grid-template-columns: 1fr; }
+      .detail { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <h1>Data360<br>catalog explorer</h1>
+      <p class="intro">Browse the datasets and indicators available through the World Bank Data360 metadata API. Search first, then inspect the definition and measurement unit before selecting candidate dimensions of deprivation.</p>
+    </header>
+
+    <section class="toolbar" aria-label="Catalog filters">
+      <input id="search" type="search" placeholder="Search datasets, indicators, definitions..." autocomplete="off">
+      <select id="dataset"><option value="">All datasets</option></select>
+      <button id="reload">Reload catalog</button>
+    </section>
+    <div id="status" class="status" role="status">Loading metadata catalog...</div>
+    <section class="stats" aria-label="Catalog totals">
+      <div class="stat">Matching indicators<strong id="indicator-count">--</strong></div>
+      <div class="stat">Datasets represented<strong id="dataset-count">--</strong></div>
+      <div class="stat">Catalog records loaded<strong id="record-count">--</strong></div>
+    </section>
+
+    <section class="layout">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dataset</th><th>Indicator</th><th>Name</th><th>Unit</th><th>Frequency</th></tr>
+          </thead>
+          <tbody id="results"></tbody>
+        </table>
+      </div>
+      <aside class="detail" id="detail">
+        <h2>Select an indicator</h2>
+        <p class="hint">Click a row to inspect its definition, source dataset, unit, and available metadata fields.</p>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = 'https://data360api.worldbank.org/data360/metadata';
+    const PAGE_SIZE = 1000;
+    const state = { records: [], filtered: [] };
+    const search = document.querySelector('#search');
+    const dataset = document.querySelector('#dataset');
+    const results = document.querySelector('#results');
+    const detail = document.querySelector('#detail');
+    const status = document.querySelector('#status');
+
+    function seriesFromRecord(record) {
+      const series = record && record.series_description;
+      if (!series || typeof series !== 'object') return null;
+      const id = series.idno || series.id || series.indicator_id;
+      if (!id) return null;
+      return {
+        id,
+        datasetId: series.database_id || series.dataset_id || '',
+        datasetName: series.database_name || series.dataset_name || series.database_id || '',
+        name: series.name || series.title || series.label || '',
+        definition: series.definition_long || series.definition || series.description || '',
+        unit: series.measurement_unit || series.unit_measure || series.unit || '',
+        periodicity: series.periodicity || series.frequency || '',
+        source: series.source || series.sources || '',
+        raw: series
+      };
+    }
+
+    async function fetchPage(skip) {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: `&$top=${PAGE_SIZE}&$skip=${skip}` })
+      });
+      if (!response.ok) throw new Error(`Metadata request failed: ${response.status}`);
+      return response.json();
+    }
+
+    async function loadCatalog() {
+      status.textContent = 'Loading metadata catalog...';
+      results.innerHTML = '';
+      try {
+        const records = [];
+        let total = 0;
+        for (let skip = 0; skip < 100000; skip += PAGE_SIZE) {
+          const payload = await fetchPage(skip);
+          const page = Array.isArray(payload.value) ? payload.value : [];
+          total = Number(payload['@odata.count'] || total || records.length + page.length);
+          records.push(...page);
+          status.textContent = `Loading metadata catalog... ${records.length.toLocaleString()} records`;
+          if (!page.length || records.length >= total) break;
+        }
+        state.records = records.map(seriesFromRecord).filter(Boolean);
+        state.records = [...new Map(state.records.map(item => [item.id, item])).values()];
+        populateDatasetFilter();
+        applyFilters();
+      } catch (error) {
+        status.innerHTML = `<div class="error">${escapeHtml(error.message)}. If your browser blocks direct API requests, open this page through a local web server or export the catalog from the notebook.</div>`;
+      }
+    }
+
+    function populateDatasetFilter() {
+      const values = [...new Set(state.records.map(item => item.datasetId).filter(Boolean))].sort();
+      dataset.innerHTML = '<option value="">All datasets</option>' + values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+    }
+
+    function applyFilters() {
+      const query = search.value.trim().toLowerCase();
+      const selectedDataset = dataset.value;
+      state.filtered = state.records.filter(item => {
+        const text = [item.id, item.datasetId, item.datasetName, item.name, item.definition, item.unit, item.periodicity].join(' ').toLowerCase();
+        return (!query || text.includes(query)) && (!selectedDataset || item.datasetId === selectedDataset);
+      });
+      renderResults();
+      document.querySelector('#indicator-count').textContent = state.filtered.length.toLocaleString();
+      document.querySelector('#dataset-count').textContent = new Set(state.filtered.map(item => item.datasetId).filter(Boolean)).size.toLocaleString();
+      document.querySelector('#record-count').textContent = state.records.length.toLocaleString();
+      status.textContent = `${state.filtered.length.toLocaleString()} matching indicators`;
+    }
+
+    function renderResults() {
+      results.innerHTML = state.filtered.slice(0, 2000).map((item, index) => `
+        <tr data-index="${index}">
+          <td><span class="dataset">${escapeHtml(item.datasetId)}</span><br>${escapeHtml(item.datasetName)}</td>
+          <td class="id">${escapeHtml(item.id)}</td>
+          <td>${escapeHtml(item.name || 'Unnamed indicator')}</td>
+          <td>${escapeHtml(item.unit)}</td>
+          <td>${escapeHtml(item.periodicity)}</td>
+        </tr>`).join('');
+      results.querySelectorAll('tr').forEach(row => row.addEventListener('click', () => showDetail(state.filtered[Number(row.dataset.index)], row)));
+    }
+
+    function showDetail(item, row) {
+      results.querySelectorAll('tr').forEach(element => element.classList.remove('selected'));
+      row.classList.add('selected');
+      detail.innerHTML = `
+        <h2>${escapeHtml(item.name || item.id)}</h2>
+        <p class="id">${escapeHtml(item.id)}</p>
+        <dl>
+          <dt>Dataset</dt><dd>${escapeHtml(item.datasetId)}<br>${escapeHtml(item.datasetName)}</dd>
+          <dt>Definition</dt><dd>${escapeHtml(item.definition || 'No definition returned')}</dd>
+          <dt>Unit</dt><dd>${escapeHtml(item.unit || 'Not specified')}</dd>
+          <dt>Frequency</dt><dd>${escapeHtml(item.periodicity || 'Not specified')}</dd>
+          <dt>Source</dt><dd>${escapeHtml(formatSource(item.source) || 'Not specified')}</dd>
+        </dl>
+        <p class="hint">The metadata tells you what the indicator claims to measure. Data values and population weighting should be checked separately before using it in the D1 comparison.</p>`;
+    }
+
+    function formatSource(source) {
+      if (Array.isArray(source)) return source.map(item => typeof item === 'object' ? item.name || item.title || '' : item).filter(Boolean).join(', ');
+      if (typeof source === 'object' && source !== null) return source.name || source.title || JSON.stringify(source);
+      return source;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+    }
+
+    search.addEventListener('input', applyFilters);
+    dataset.addEventListener('change', applyFilters);
+    document.querySelector('#reload').addEventListener('click', loadCatalog);
+    loadCatalog();
+  </script>
+</body>
+</html>
