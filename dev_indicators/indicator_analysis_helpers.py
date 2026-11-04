@@ -1,3 +1,7 @@
+# Provides shared functions to fetch and clean World Bank indicators, 
+# combine them with PIP global-decile data, and generate summaries and 
+# visualizations for the analysis notebooks and report.
+
 from __future__ import annotations
 
 import json
