@@ -29,7 +29,7 @@ These notebooks are supporting analyses, not required to render the PDF. Noteboo
 
 The report uses the World Bank PIP 1,000-bin global distribution (2026 release, vintage 20260922), in 2021 PPP dollars per person per day. The 2026 forecast is excluded; the report ends in 2025. The 772 MB CSV is not included in this repository. Download it from the [World Bank Data Catalog](https://datacatalog.worldbank.org/search/dataset/0064304/1000-binned-global-distribution) and place `GlobalDist1000bins_1990_2026_20260922_2021_01_02_PROD.csv` in the project root.
 
-The report build also fetches electricity, internet, and sanitation indicators from Data360/World Bank APIs. The FCS list PDF is included because it is small and required to reproduce the fragility figure.
+The report build also fetches electricity, internet, and sanitation indicators from Data360/World Bank APIs (https://data360.worldbank.org/en/api). The FCS list PDF is included because it is small and required to reproduce the fragility figure.
 
 ## Reproduce
 
