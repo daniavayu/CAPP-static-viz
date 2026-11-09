@@ -259,15 +259,15 @@
     },
     "Fragility": {
       "Other 80%": {
-        "Before": 5.0,
+        "Before": 4.2,
         "Today": 6.4
       },
       "Poorest 10%": {
-        "Before": 26.3,
+        "Before": 24.5,
         "Today": 55.8
       },
       "Second-poorest 10%": {
-        "Before": 9.9,
+        "Before": 10.3,
         "Today": 28.1
       }
     },

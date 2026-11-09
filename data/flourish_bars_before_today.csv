@@ -1,0 +1,13 @@
+indicator,group,Before,Today
+Lives in country where most people are offline,D1,100.0,74.0
+Lives in country where most people are offline,D2,100.0,33.4
+Lives in country where most people are offline,D2-D10,99.3,9.0
+Lives in country where most people lack electricity,D1,38.7,30.6
+Lives in country where most people lack electricity,D2,21.7,7.7
+Lives in country where most people lack electricity,D2-D10,12.0,1.9
+Lives in country where most people lack basic sanitation,D1,47.3,66.3
+Lives in country where most people lack basic sanitation,D2,55.7,29.8
+Lives in country where most people lack basic sanitation,D2-D10,39.3,8.1
+Lives in fragile or conflict-affected state,D1,26.3,55.8
+Lives in fragile or conflict-affected state,D2,9.9,28.1
+Lives in fragile or conflict-affected state,D2-D10,5.6,8.8

@@ -26,7 +26,7 @@ In a perfectly equal world, the bottom 10% would receive 10% of global income. I
 
 ![](figures/fig1_income_share_by_decile.png){width=100%}
 
-Put side by side, the divergence is stark. Measured against 1990, every decile from the second to the seventh now holds 43-58% more of global income. The bottom 10% kept pace until the early 2010s; since then its share has fallen back, but remains 29% above its 1990 level. The gap with the top tells the same story. In 1990, average income in the richest tenth was 79 times that in the poorest tenth. By 2014 the gap had narrowed to 47 times; since then it has widened again, to 53 times in 2025. This reversal does not hinge on recent projections: it is already visible by 2019, before the pandemic and in years with broader survey coverage, when the bottom 10%'s share had fallen to 0.99% and the gap had widened to 49 times.
+Put side by side, the divergence is stark. Measured against 1990, every decile from the second to the seventh now holds 43-58% more of global income. The bottom 10% kept pace until the early 2010s; since then its share has fallen back, but remains 28% above its 1990 level. The gap with the top tells the same story. In 1990, average income in the richest tenth was 79 times that in the poorest tenth. By 2014 the gap had narrowed to 47 times; since then it has widened again, to 53 times in 2025. This reversal does not hinge on recent projections: it is already visible by 2019, before the pandemic and in years with broader survey coverage, when the bottom 10%'s share had fallen to 0.99% and the gap had widened to 49 times.
 
 ![](figures/fig1b_share_index.png){width=95%}
 
@@ -57,7 +57,7 @@ Most of these countries share a profile: weak state capacity, recurring conflict
 
 The data on basic services and fragility point the same way. Over the past two decades, progress has reached most of the world but largely bypassed its bottom tenth. Each comparison below asks the same question at two points in time: what share of the people in each group live in a country where most people lack a given service?
 
-**Internet use** is the clearest case of a gap opening up. In 2000, almost everyone lived in a country where most people were offline. Today, 74% of the people in the bottom 10% still do, compared with 33% in the second decile and 6% in the other 80%. **Electricity** shows a similar stall: since 2000, the share of the bottom 10% living in a country where most people lack power has fallen only from 39% to 31%, while for the second decile it dropped from 22% to 8%. On **basic sanitation**, the picture has worsened for the bottom 10%: 66% now live in a country where most people lack a basic toilet, up from 47% in 2000, even as the share fell from 56% to 30% for the second decile and from 37% to 5% for the rest of the world. **Fragility** follows the same pattern: 56% of the bottom 10% now live in a fragile or conflict-affected state, up from 26% in 2005, compared with 28% of the second decile and 6% of everyone else.
+**Internet use** is the clearest case of a gap opening up. In 2000, almost everyone lived in a country where most people were offline. Today, 74% of the people in the bottom 10% still do, compared with 33% in the second decile and 6% in the other 80%. **Electricity** shows a similar stall: since 2000, the share of the bottom 10% living in a country where most people lack power has fallen only from 39% to 31%, while for the second decile it dropped from 22% to 8%. On **basic sanitation**, the picture has worsened for the bottom 10%: 66% now live in a country where most people lack a basic toilet, up from 47% in 2000, even as the share fell from 56% to 30% for the second decile and from 37% to 5% for the rest of the world. **Fragility** follows the same pattern: 56% of the bottom 10% now live in a fragile or conflict-affected state, up from 24% in 2000, compared with 28% of the second decile and 6% of everyone else.
 
 ![](figures/fig4_services_before_today.png){width=100%}
 
@@ -65,7 +65,7 @@ Across all four measures, the bottom 10% is not just behind. It is increasingly 
 
 ## What it means
 
-The risk for global inequality in the coming decades may not only be that the top 1% accumulates too much, but that the bottom of the distribution becomes a place people cannot leave, while the rest of the world moves on. Measuring inequality from the bottom makes that risk visible, and it points to where policy attention is most needed: fragile states, basic infrastructure, and the shocks that keep the poorest from climbing out.
+The risk for global inequality in the coming decades may not only be that the top 1% accumulates too much, but that the bottom of the distribution stops catching up. Even if some people move out of it, a part of the world risks being left behind, with far less access to both income growth and basic services, while the rest moves on. Measuring inequality from the bottom makes that risk visible, and it points to where policy attention is most needed: fragile states, basic infrastructure, and the shocks that keep the poorest from climbing out.
 
 {{< pagebreak >}}
 
@@ -86,6 +86,6 @@ Three implications follow. First, deciles are *global*: a person in Burundi and 
 
 **Services.** For each indicator, a country is classified as *low access* if fewer than half of its population has the service: access to electricity (World Bank WDI), individuals using the internet (ITU), and at least basic sanitation services (WHO/UNICEF JMP, via WDI). Each bar shows the share of a group's population that lives in a low-access country. This is a country-level classification: it describes where people live, not whether each individual has the service.
 
-**Fragility.** World Bank lists of fragile and conflict-affected situations for fiscal years 2006 and 2026, matched to the 2005 and 2025 income distributions. The list's methodology changed in FY2009 and FY2020, so the comparison over time is indicative.
+**Fragility.** World Bank lists of fragile and conflict-affected situations (FCV) for fiscal years 2001 and 2026, matched to the 2000 and 2025 income distributions. The lists come from the GPID-WB/class repository (https://github.com/GPID-WB/class).
 
-**Years.** "Before" is 2000 for services and 2005 for fragility. "Today" is 2023 for electricity, 2024 for internet and sanitation, and 2025 for fragility. Countries without data for a given indicator and year are excluded from that calculation.
+**Years.** "Before" is 2000 for services and fragility. "Today" is 2023 for electricity, 2024 for internet and sanitation, and 2025 for fragility. Countries without data for a given indicator and year are excluded from that calculation.

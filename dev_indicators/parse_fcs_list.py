@@ -1,4 +1,11 @@
-"""Parse the World Bank FCS/LICUS PDF (FY06-FY26) into a tidy country-year table."""
+"""Parse the World Bank FCS/LICUS PDF (FY06-FY26) into a tidy country-year table.
+
+BACKUP / HISTORICAL: this parser was used to build the fragility figures until Daniel
+(GPID) shared an updated FCV classification (GPID-WB/class, CLASS.dta). The project now
+reads that file directly from data/FCV_daniel/fcv_by_country_year.csv, so nothing in the
+blog or notebooks depends on this module any more. Kept only as a record of what was
+done originally.
+"""
 from __future__ import annotations
 
 import re

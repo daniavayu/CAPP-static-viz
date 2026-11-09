@@ -18,10 +18,10 @@ FIGURES = REPORT_DIR / 'figures'
 FIGURES.mkdir(exist_ok=True)
 sys.path.insert(0, str(ROOT / 'dev_indicators'))
 from indicator_analysis_helpers import fetch_indicator  # noqa: E402
-from parse_fcs_list import parse_fcs  # noqa: E402
 
 DISTRIBUTION = ROOT / 'GlobalDist1000bins_1990_2026_20260922_2021_01_02_PROD.csv'
-FCS_PDF = ROOT / 'data' / 'C2-FCSList-FY06toFY26.pdf'
+# FCV status by country and World Bank fiscal-year list (GPID-WB/class, CLASS.dta).
+FCV_FILE = ROOT / 'data' / 'FCV_daniel' / 'fcv_by_country_year.csv'
 THRESHOLD = 50
 # 2026 in the PIP release is a forecast; stop at 2025.
 LAST_YEAR = 2025
@@ -76,6 +76,7 @@ deciles_year['share'] = 100 * deciles_year['mean_welf'] / deciles_year.groupby('
 deciles_year['panel'] = 'Decile ' + deciles_year['decile'].astype(str)
 deciles_year['is_d1'] = deciles_year['decile'].eq(1)
 shares_wide = deciles_year.pivot(index='year', columns='decile', values='share')
+d1_peak_year = int(shares_wide[1].idxmax())  # year the poorest tenth's share peaked (2014)
 numbers['income_share'] = {
     str(year): shares_wide.loc[year].round(2).to_dict() for year in (1990, 2000, 2015, 2019, LAST_YEAR)
 }
@@ -98,7 +99,7 @@ fig1 = (
     )
     .resolve_scale(y='independent')
     .properties(title=alt.TitleParams(
-        "Since 2015, the poorest tenth's share of global income has been shrinking",
+        f"Since {d1_peak_year}, the poorest tenth's share of global income has been shrinking",
         subtitle=[f'Share of global income held by each global income decile, 1990-{LAST_YEAR} (%).',
                   'Each panel has its own vertical scale: compare shapes, not heights.'],
     ))
@@ -361,16 +362,17 @@ for name, title, dataset, indicator_id, start, end in COMPARISONS:
     values = fetch_indicator(dataset, indicator_id).drop_duplicates(['code', 'year'])
     panels.append((name, title, start, end, flags_for(values, start), flags_for(values, end)))
 
-fcs = parse_fcs(FCS_PDF)
+fcv = pd.read_csv(FCV_FILE)
 
 
-def fcs_flags(fiscal_year):
-    listed = set(fcs.loc[fcs['fiscal_year'].eq(fiscal_year), 'code'])
-    codes = DECILES[fiscal_year - 1]['code'].unique()
+def fcv_flags(year):
+    # The fiscal-year N+1 list is matched to the year-N income distribution.
+    listed = set(fcv.loc[fcv['wb_fiscal_year_list'].eq(year + 1) & fcv['is_fcv'].eq(1), 'country_code'])
+    codes = DECILES[year]['code'].unique()
     return pd.Series([float(code in listed) for code in codes], index=codes)
 
 
-panels.append(('Fragility', 'Fragile or conflict-affected state', 2005, 2025, fcs_flags(2006), fcs_flags(2026)))
+panels.append(('Fragility', 'Fragile or conflict-affected state', 2000, 2025, fcv_flags(2000), fcv_flags(2025)))
 
 rows = []
 for name, title, start, end, f0, f1 in panels:
